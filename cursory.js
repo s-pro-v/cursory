@@ -2,12 +2,12 @@
  * Cursory — dołącz na dowolnej stronie:
  *   <link rel="stylesheet" href="cursory.css">
  *   <script src="cursory.js" defer></script>
- * (ścieżki dostosuj do miejsca, gdzie leżą pliki obok folderu cursors/).
+ * Grafiki domyślnie w podfolderze cursory/ obok tego pliku (na GitHubie + jsDelivr ten sam układ).
  *
  * Opcjonalnie przed skryptem:
  *   window.CursoryConfig = {
- *     base: "https://twoja-domena.pl/assets/cursory/",  // opcjonalnie zamiast folderu skryptu
- *     idle: "cursors/inny.png",
+ *     base: "https://cdn.jsdelivr.net/gh/s-pro-v/cursory@refs/heads/main/",  // lub własny CDN
+ *     idle: "cursory/[PRIS] Unavailable v4.png",
  *     pointer: "...",
  *     pointerHover: "...",
  *     text: "...",
@@ -143,6 +143,9 @@
         if (!state.handlers) return;
         document.removeEventListener("mousemove", state.handlers.onMove, { passive: true });
         document.removeEventListener("mouseover", state.handlers.onOver, true);
+        document.documentElement.removeEventListener("mouseleave", state.handlers.onDocLeave);
+        document.documentElement.removeEventListener("mouseenter", state.handlers.onDocEnter);
+        document.removeEventListener("visibilitychange", state.handlers.onVisChange);
         if (state.body) {
             state.body.classList.remove("cursor-gif-follower", "cursory-enabled");
         }
@@ -270,6 +273,33 @@
             applyInteractive(e.target);
         }
 
+        function hideFollower() {
+            layer.hidden = true;
+            body.classList.remove("cursor-gif-follower");
+        }
+
+        function showFollower() {
+            body.classList.add("cursor-gif-follower");
+            layer.hidden = false;
+            tick();
+        }
+
+        function onDocLeave() {
+            hideFollower();
+        }
+
+        function onDocEnter() {
+            showFollower();
+        }
+
+        function onVisChange() {
+            if (document.hidden) {
+                hideFollower();
+            } else {
+                showFollower();
+            }
+        }
+
         var probe = new Image();
         probe.onload = function () {
             img.src = def;
@@ -277,10 +307,19 @@
             body.classList.add("cursor-gif-follower");
             document.addEventListener("mousemove", onMove, { passive: true });
             document.addEventListener("mouseover", onOver, true);
+            document.documentElement.addEventListener("mouseleave", onDocLeave);
+            document.documentElement.addEventListener("mouseenter", onDocEnter);
+            document.addEventListener("visibilitychange", onVisChange);
             pending.x = window.innerWidth / 2;
             pending.y = window.innerHeight / 2;
             tick();
-            state.handlers = { onMove: onMove, onOver: onOver };
+            state.handlers = {
+                onMove: onMove,
+                onOver: onOver,
+                onDocLeave: onDocLeave,
+                onDocEnter: onDocEnter,
+                onVisChange: onVisChange,
+            };
             state.body = body;
         };
         probe.onerror = function () {

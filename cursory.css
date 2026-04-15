@@ -1,0 +1,79 @@
+/**
+ * Cursory — niestandardowe kursory (GIF/PNG + podążająca warstwa).
+ * Ścieżki url() są względem tego pliku (folder z cursors/).
+ */
+:root {
+    --cursor-idle: url("cursory/[PRIS] Unavailable v4.png");
+    --cursor-gif-pointer: url("cursory/[PRIS] Link - Classic v4.gif");
+    --cursor-gif-pointer-hover: url("cursory/[PRIS] Link - Sheen v4.gif");
+    --cursor-gif-text: url("cursory/[PRIS] Loop - Text - Needle v4.gif");
+    --cursor-follower-size: 32px;
+}
+
+body.cursory-enabled {
+    cursor: var(--cursor-idle) 0 0, auto;
+}
+
+body.cursory-enabled a,
+body.cursory-enabled button,
+body.cursory-enabled [role="button"],
+body.cursory-enabled summary {
+    cursor: var(--cursor-gif-pointer) 0 0, pointer;
+}
+
+body.cursory-enabled a:hover,
+body.cursory-enabled button:hover:not(:disabled),
+body.cursory-enabled [role="button"]:hover,
+body.cursory-enabled summary:hover {
+    cursor: var(--cursor-gif-pointer-hover) 0 0, pointer;
+}
+
+body.cursory-enabled input,
+body.cursory-enabled textarea,
+body.cursory-enabled select {
+    cursor: var(--cursor-gif-text) 0 0, text;
+}
+
+body.cursory-enabled :disabled,
+body.cursory-enabled [aria-disabled="true"] {
+    cursor: var(--cursor-idle) 0 0, not-allowed;
+}
+
+body.cursory-enabled.cursor-gif-follower a,
+body.cursory-enabled.cursor-gif-follower button,
+body.cursory-enabled.cursor-gif-follower [role="button"],
+body.cursory-enabled.cursor-gif-follower summary {
+    cursor: none;
+}
+
+body.cursory-enabled.cursor-gif-follower,
+body.cursory-enabled.cursor-gif-follower * {
+    cursor: none !important;
+}
+
+.cursory-follower {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    z-index: 2147483647;
+    contain: layout style;
+    will-change: transform;
+}
+
+.cursory-follower[hidden] {
+    display: none !important;
+}
+
+.cursory-follower img {
+    display: block;
+    height: var(--cursor-follower-size);
+    width: auto;
+    max-width: 96px;
+    transform: translate(-2px, -2px);
+    image-rendering: auto;
+    -webkit-user-drag: none;
+    user-select: none;
+}

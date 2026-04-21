@@ -1,6 +1,6 @@
 /**
  * Cursory — niestandardowe kursory (GIF/PNG + podążająca warstwa).
- * Ścieżki url() są względem tego pliku (folder z cursors/).
+ * Ścieżki url() są względem tego pliku — podfolder cursory/ (np. na jsDelivr: .../main/cursory/[PRIS]%20Link%20-%20Classic%20v4.gif).
  */
 :root {
     --cursor-idle: url("cursory/[PRIS] Unavailable v4.png");
@@ -52,32 +52,28 @@ body.cursory-enabled.cursor-gif-follower * {
 }
 
 .cursory-follower {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 1px;
-    height: 1px;
-    pointer-events: none;
-    z-index: 2147483647;
-    contain: layout style;
-    will-change: transform;
-    /* Dodane transition: bardzo krótki czas (np. 0.05s - 0.08s) i ease-out dla szybkiej, ale płynnej reakcji na ruch myszy */
-    transition: transform 0.08s ease-out;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    z-index: 2147483647;
+    contain: layout style;
+    will-change: transform;
 }
 
 .cursory-follower[hidden] {
-    display: none !important;
+    display: none !important;
 }
 
 .cursory-follower img {
-    display: block;
-    height: var(--cursor-follower-size);
-    width: auto;
-    max-width: 96px;
-    transform: translate(-2px, -2px);
-    image-rendering: auto;
-    -webkit-user-drag: none;
-    user-select: none;
-    border-radius: 0;
-    /* Dodane transition dla płynnych, błyskawicznych efektów wizualnych samego GIF-a (np. zmiana przezroczystości lub skali przy hoverze) */
-    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+    display: block;
+    height: var(--cursor-follower-size);
+    width: auto;
+    max-width: 96px;
+    transform: translate(-2px, -2px);
+    image-rendering: auto;
+    -webkit-user-drag: none;
+    user-select: none;
+}
